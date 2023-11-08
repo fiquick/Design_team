@@ -157,7 +157,7 @@ Returns the employees who were mentored by `Ronnie Scott` and have a salary grea
 |Rows: 1
 |===
 
-=== Finding a project and its editors.
+=== Finding a project and its editors
 
 .Query
 [source, cypher, indent=0]
