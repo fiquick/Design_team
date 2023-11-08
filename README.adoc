@@ -73,6 +73,7 @@ There are additional relationships in the graph, as the employees mentored each 
 The employees also have relationships with the projects. Refer to the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team.png] file to see which employees designed or edited the projects and their exact roles. You can also see all the properties of the nodes, and the properties of the relationships.
 ====
 
+[[nodes]]
 == Conclusion
 
 If I had a larger graph modelling an entire organisation, a fantastic route for exploration would be to see who has impacted the most employees in terms of mentoring (direct mentees, mentees of direct mentees etc.) and how the projects benefitted from these relationships. 
