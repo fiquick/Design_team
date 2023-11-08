@@ -127,7 +127,7 @@ MATCH(e:Employee {salary:70000})
 RETURN e
 ----
 
-Returns the `employee` who earns a salary of 70000.
+Returns the `employee` who earns a salary of 70000 and their properties 
 
 .Result
 [role="queryresult",options="header,footer",cols="1*<m"]
