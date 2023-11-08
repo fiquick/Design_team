@@ -174,7 +174,7 @@ Returns the project `Angele Kesta` designed and its editors.
 | project.title | editor.name
 | "Events Seating Map" | "Justina Detail"
 | "Events Seating Map" | "George Dzinga"
-2+|Rows: 1
+2+|Rows: 2
 |===
 
 === Finding who designed and edited Events Seating Map 
