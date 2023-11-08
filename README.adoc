@@ -1,0 +1,217 @@
+:description: A brief discussion about Fi's first graph created with Neo4j
+
+[[neo4j-discussion]]
+= Neo4j
+
+[[graph-introduction]]
+== Introduction to graph databases
+
+When working with highly connected data, graph databases are ultra fast and much easier to query than relational databases. You can query key value pairs in a graph database and also query the relationships between entities. Querying relationships is a powerful tool because it helps you to find patterns in data and discover new insights.
+
+https://neo4j.com[Neo4j] is the world’s leading graph database. It's scalable, versatile and user-friendly. I used a https://neo4j.com/product/workspace/[Neo4j Aura workspace] on my browser to create a graph representing a design team.
+
+[[example-graph]]
+== Design team graph
+
+To recreate the graph in the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team.png] file, run the following query against an empty https://neo4j.com[Neo4j] database:
+
+[,cypher]
+----
+CREATE
+  (angele:Employee {name: 'Angele Kesta', salary:70000, location: 'Vilnius'}),
+  (mantas:Employee {name: 'Mantas Pasta', salary:55000, location: 'Vilnius'}),
+  (ronnie:Employee {name: 'Ronnie Scott', salary:110000, location: 'Tel Aviv'}),
+  (justina:Employee {name:'Justina Detail', salary: 60000, location: 'Vilnius'}),
+  (george:Employee {name: 'George Dzinga', salary: 80000, location: 'Amsterdam'}),
+  (sally:Intern {university: 'Vilnius Technical University', name: 'Sally Jones', location: 'Vilnius'}),
+  (events:Project {title: 'Events Seating Map'}),
+  (angele)-[:DESIGNED {role: 'Lead Designer'}]->(events),
+  (mantas)-[:DESIGNED {role: 'Junior Designer'}]->(events),
+  (ronnie)-[:PROJECT_MANAGED {role: 'Head of Project'}]->(events),
+  (justina)-[:EDITED]->(events),
+  (george)-[:EDITED]->(events),
+  (forums:Project {title: 'Forum Comments'}),
+  (george)-[:DESIGNED {role: 'UX Writer'}]->(forums),
+  (mantas)-[:DESIGNED {role: 'Junior Designer'}]->(forums),
+  (ronnie)-[:MENTORED]->(angele),
+  (ronnie)-[:MENTORED]->(mantas),
+  (george)-[:MENTORED]->(mantas),
+  (mantas)-[:MENTORED]->(sally)
+----
+
+This query is written in Cypher code which is https://neo4j.com[Neo4j]'s graph query language, used to add nodes and properties to a graph, and to retrieve data.
+
+[[nodes]]
+== Nodes
+
+Nodes are used to represent real-world objects, such as people or products. In the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team graph], nodes represent `employees`, `projects` and an `intern`.
+
+* There are six nodes representing people in the design team. Five of these nodes have the label `Employee` and include properties about the employee's `name`, `salary` and `location`. One of these nodes has the label `Intern` and includes properties about the intern's `university`, `name` and `location`. 
+
+* There are two project nodes with the label `Project`. The project titles are `Events Seating Map` and `Forum Comments`.
+
+[[nodes]]
+== Relationships
+
+The graph demonstrates the roles employees had in the projects and how employees interact with each other. This information is represented as relationships between nodes. A relationship describes a connection between a source node and a target node.
+
+_Let's discuss Ronnie's relationships in the graph to illustrate how relationships are structured in https://neo4j.com[Neo4j] and demonstrate the power of graph databases:_
+
+* Cypher syntax is used to implement the mentor relationship between `Ronnie Scott` and `Angele Kesta`.
+
+* Cypher provides a visual way of demonstrating relationships, using a syntax similar to ASCII-art where `(nodes)-[:ARE_CONNECTED_TO]→(otherNodes)` using round brackets for circular `(nodes)`, and `-[:ARROWS]→` to represent relationships.
+
+* The Cypher syntax representing the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team graph] shows that `(ronnie)-[:MENTORED]->(angele)`.
+
+* Ronnie Scott also mentored Mantas Pasta.
+
+* Ronnie Scott was also Head of Project while designing the Events Seating Map. Therefore the relationship between Ronnie and the Events Seating Map is labeled `PROJECT_MANAGED` and includes a property `role` with the value Head of Project.
+
+[NOTE]
+====
+There are additional relationships in the graph, as the employees mentored each other, and one employee mentored Sally the intern.
+The employees also have relationships with the projects. Refer to the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team.png] file to see which employees designed and edited the projects, and their exact role.
+====
+
+== Conclusion
+
+If I had a larger graph modelling an entire organisation, a fantastic route for exploration would be to see who has impacted the most employees in terms of mentoring (direct mentees, mentees of direct mentees etc.). Cypher can be used to run queries to get answers about nodes and their relationships. This section provides example queries and information retrieved from the graph.
+
+=== Count the number of mentees a mentor has
+
+.Query
+[source, cypher, indent=0]
+----
+MATCH (mentor:Employee|Intern)-[:MENTORED]->(mentee:Employee|Intern)
+RETURN mentor.name, COUNT(*) AS num_mentees
+ORDER BY num_mentees DESC
+----
+
+This query returns the name of the `employee` or `intern` who has the most mentees first, in this case it's `Ronnie Scott`, then orders the rest of the results in descending order.
+
+.Result
+[role="queryresult",options="header,footer",cols="2*<m"]
+|===
+| mentor.name | num.mentees
+| "Ronnie Scott" | 2
+| "George Dzinga" | 1
+| "Mantas Pasta" | 1
+2+|Rows: 3
+|===
+
+=== Indirect mentees
+
+.Query
+[source, cypher, indent=0]
+----
+MATCH (ronnie:Employee {name: 'George Dzinga'})-[:MENTORED]->(mentees)-[:MENTORED]->(mentees_of_mentees)
+RETURN mentees_of_mentees.name
+----
+
+George Dzinga's indirect mentee is Sally Jones. This query works by first matching `Ronnie Scott`, his direct mentees, then all of the mentees of his direct mentees.
+
+.Result
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| mentees_of_mentees.name
+| "Sally Jones"
+|Rows: 1
+|===
+
+=== Returning a node
+
+.Query
+[source, cypher, indent=0]
+----
+MATCH(e:Employee {salary:70000}) 
+RETURN e
+----
+
+Returns the employee who has a salary of `70000`.
+
+.Result
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| e
+| (:Employee {name: "Angele Kesta", location: "Vilnius", salary: 70000})
+|Rows: 1
+|===
+
+=== Using a minimum 
+
+.Query
+[source, cypher, indent=0]
+----
+WITH 60000 AS minSalary
+MATCH (a:Employee WHERE a.name = 'Ronnie Scott')-[:MENTORED]->(b:Employee WHERE b.salary > minSalary)
+RETURN b.name
+----
+
+Returns the employees who were mentored by `Ronnie Scott` and have a salary greater than 60000.
+
+.Result
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| b.name
+| "Angele Kesta"
+|Rows: 1
+|===
+
+=== Finding the project Angele Kesta worked on, and its editor
+
+.Query
+[source, cypher, indent=0]
+----
+MATCH (angele {name: 'Angele Kesta'})-[:DESIGNED]->(project)<-[:EDITED]-(editor)
+RETURN project.title, editor.name
+----
+
+Returns the project `Angele Kesta` designed and its editor.
+
+.Result
+[role="queryresult",options="header,footer",cols="2*<m"]
+|===
+| project.title | editor.name
+| "Events Seating Map" | "Justina Detail"
+2+|Rows: 1
+|===
+
+=== Finding who designed and edited Events Seating Map 
+
+.Query
+[source, cypher, indent=0]
+----
+MATCH (events {title: 'Events Seating Map'})<-[:DESIGNED|EDITED]-(employee)
+RETURN employee.name
+----
+
+Returns nodes with a `DESIGNED` or `EDITED` relationship towards the `project` node `Events Seating Map`.
+
+.Result
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| employee.name
+| "Angele Kesta"
+| "Mantas Pasta"
+| "Justina Detail
+|Rows: 3
+|===
+
+=== Using true/false
+
+.Query
+[source, cypher, indent=0]
+----
+MATCH (e:Employee {name: 'Ronnie Scott'})
+RETURN e.salary < 99000
+----
+
+This checks if the salary of the employee `Ronnie Scott` is less than 99000, and returns `false` as Ronnie earns 110000.
+
+.Result
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| e.salary < 99000
+| false
+|Rows: 1
+|===
