@@ -108,7 +108,7 @@ MATCH (ronnie:Employee {name: 'George Dzinga'})-[:MENTORED]->(mentees)-[:MENTORE
 RETURN mentees_of_mentees.name
 ----
 
-George Dzinga's indirect mentee is Sally Jones. This query works by first matching `Ronnie Scott`, his direct mentees, then all of the mentees of his direct mentees.
+Ronnie Scott's indirect mentee is Sally Jones. This query works by first matching `Ronnie Scott`, his direct mentees, then all of the mentees of his direct mentees.
 
 .Result
 [role="queryresult",options="header,footer",cols="1*<m"]
