@@ -104,7 +104,7 @@ This query returns the name of the `employee` or `intern` who has the most mente
 .Query
 [source, cypher, indent=0]
 ----
-MATCH (ronnie:Employee {name: 'George Dzinga'})-[:MENTORED]->(mentees)-[:MENTORED]->(mentees_of_mentees)
+MATCH (ronnie:Employee {name: 'Ronnie Scott'})-[:MENTORED]->(mentees)-[:MENTORED]->(mentees_of_mentees)
 RETURN mentees_of_mentees.name
 ----
 
