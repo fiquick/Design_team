@@ -157,7 +157,7 @@ Returns the employees who were mentored by `Ronnie Scott` and have a salary grea
 |Rows: 1
 |===
 
-=== Finding the project Angele Kesta worked on, and its editor
+=== Finding the project Angele Kesta worked on, and its editors.
 
 .Query
 [source, cypher, indent=0]
@@ -166,13 +166,14 @@ MATCH (angele {name: 'Angele Kesta'})-[:DESIGNED]->(project)<-[:EDITED]-(editor)
 RETURN project.title, editor.name
 ----
 
-Returns the project `Angele Kesta` designed and its editor.
+Returns the project `Angele Kesta` designed and its editors.
 
 .Result
 [role="queryresult",options="header,footer",cols="2*<m"]
 |===
 | project.title | editor.name
 | "Events Seating Map" | "Justina Detail"
+| "Events Seating Map" | "George Dzinga"
 2+|Rows: 1
 |===
 
