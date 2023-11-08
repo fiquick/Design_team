@@ -75,7 +75,9 @@ The employees also have relationships with the projects. Refer to the https://gi
 
 == Conclusion
 
-If I had a larger graph modelling an entire organisation, a fantastic route for exploration would be to see who has impacted the most employees in terms of mentoring (direct mentees, mentees of direct mentees etc.). Cypher can be used to run queries to get answers about nodes and their relationships. This section provides example queries and information retrieved from the graph.
+If I had a larger graph modelling an entire organisation, a fantastic route for exploration would be to see who has impacted the most employees in terms of mentoring (direct mentees, mentees of direct mentees etc.) and how the projects benefitted from these relationships. 
+
+Cypher can be used to run queries to get answers about nodes and their relationships. This section provides example queries and information retrieved from the graph.
 
 === Count the number of mentees a mentor has
 
