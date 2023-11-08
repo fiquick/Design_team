@@ -194,8 +194,9 @@ Returns nodes with a `DESIGNED` or `EDITED` relationship towards the `project` n
 | employee.name
 | "Angele Kesta"
 | "Mantas Pasta"
-| "Justina Detail
-|Rows: 3
+| "Justina Detail"
+| "George Dzinga"
+|Rows: 4
 |===
 
 === Using true/false
