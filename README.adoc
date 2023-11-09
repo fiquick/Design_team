@@ -70,7 +70,7 @@ _Let's discuss Ronnie's relationships in the graph to illustrate how relationshi
 [NOTE]
 ====
 There are additional relationships in the graph, as the employees mentored each other, and one employee mentored Sally the intern.
-The employees also have relationships with the projects. Refer to the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team.png] file to see which employees designed or edited the projects and their exact roles. You can also see all the properties of the nodes, and the properties of the relationships.
+The employees also have relationships with the projects. Refer to the https://github.com/fiquick/Design_team/blob/main/design%20team.png[design team.png] file to see which employees designed or edited the projects and their exact roles. You will see all the properties of the nodes, and the properties of the relationships.
 ====
 
 [[nodes]]
